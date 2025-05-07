@@ -24,8 +24,13 @@ def download_audio_yt_dlp(video_url, output_path="./"):
         print(f"Ha ocurrido un error: {e}")
 
 
-if __name__ == "__main__":
+def main():
     video_url = input("Introduce la URL del video de YouTube: ")
     output_path = input("Introduce la carpeta donde guardar el audio (deja vacío para la carpeta actual): ")
     output_path = output_path if output_path else "./"
     download_audio_yt_dlp(video_url, output_path)
+
+
+if __name__ == "__main__":
+    main()
+
