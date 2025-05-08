@@ -12,6 +12,7 @@ def check_copyright_status(video_url):
     Returns: (bool, str) - (is_probably_free, explanatory_message)
     """
     try:
+        print("Checking copyright status...")
         # Configuration to extract only metadata without downloading
         ydl_opts = {
             'skip_download': True,
