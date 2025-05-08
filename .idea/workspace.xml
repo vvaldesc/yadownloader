@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9819165-ebe4-4b02-bb56-67f99286d9d9" name="Changes" comment="distribute">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/youtube_audio_downloader/downloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/youtube_audio_downloader/downloader.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -169,7 +170,7 @@
       <workItem from="1746126513301" duration="737000" />
       <workItem from="1746627895582" duration="2407000" />
       <workItem from="1746643691177" duration="4444000" />
-      <workItem from="1746717450392" duration="2327000" />
+      <workItem from="1746717450392" duration="4025000" />
     </task>
     <task id="LOCAL-00001" summary="working">
       <option name="closed" value="true" />
@@ -219,7 +220,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746719558084</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="distribute">
+      <option name="closed" value="true" />
+      <created>1746719789528</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746719789528</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,7 +240,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="distribute" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ytmp3$downloader__1_.coverage" NAME="downloader (1) Coverage Results" MODIFIED="1746719640143" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/youtube_audio_downloader" />
+    <SUITE FILE_PATH="coverage/ytmp3$downloader__1_.coverage" NAME="downloader (1) Coverage Results" MODIFIED="1746721733883" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/youtube_audio_downloader" />
     <SUITE FILE_PATH="coverage/ytmp3$main2.coverage" NAME="main2 Coverage Results" MODIFIED="1746627906593" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ytmp3$main.coverage" NAME="main Coverage Results" MODIFIED="1736980703078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

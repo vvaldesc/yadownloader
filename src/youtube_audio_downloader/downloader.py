@@ -6,39 +6,90 @@ import sys
 import yt_dlp
 
 
+def check_copyright_status(video_url):
+    """
+    Attempts to verify the copyright status of a video.
+    Returns: (bool, str) - (is_probably_free, explanatory_message)
+    """
+    try:
+        # Configuration to extract only metadata without downloading
+        ydl_opts = {
+            'skip_download': True,
+            'quiet': True,
+            'no_warnings': True
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(video_url, download=False)
+
+            # Check explicit license (if available)
+            license_info = info.get('license', '').lower()
+            if 'creative commons' in license_info:
+                return True, "The video is under Creative Commons license"
+
+            # Look for terms related to free use in the description
+            description = info.get('description', '').lower()
+            free_terms = ['free to use', 'no copyright', 'creative commons', 'cc by', 'public domain']
+            for term in free_terms:
+                if term in description:
+                    return True, f"The description mentions '{term}', it could be free to use"
+
+            # Check if there are specific download restrictions
+            if info.get('age_limit', 0) > 0:
+                return False, "The video has age restrictions, possibly protected content"
+
+            if info.get('is_live', False):
+                return False, "The video is a live broadcast, possibly with copyright protection"
+
+            # Check the title and channel for signs of official content
+            title = info.get('title', '').lower()
+            uploader = info.get('uploader', '').lower()
+            official_terms = ['official', 'oficial', 'vevo', 'topic', '- topic']
+
+            for term in official_terms:
+                if term in title or term in uploader:
+                    return False, f"The video appears to be official content ({term})"
+
+            # If we can't clearly determine, return a warning
+            return None, "The copyright status cannot be determined with certainty"
+
+    except Exception as e:
+        return None, f"Error checking rights: {e}"
+
+
 def validate_url(url):
-    """Validar que la URL sea de YouTube"""
+    """Validate that the URL is from YouTube"""
     youtube_regex = r'^(https?://)?(www\.)?(youtube\.com|youtu\.?be)/.+$'
     if not re.match(youtube_regex, url):
-        raise ValueError("La URL no parece ser una URL válida de YouTube")
+        raise ValueError("The URL does not appear to be a valid YouTube URL")
     return True
 
 
 def get_ffmpeg_path():
-    """Detectar el sistema operativo y devolver la ruta apropiada para FFmpeg"""
+    """Detect the operating system and return the appropriate path for FFmpeg"""
     system = platform.system()
     if system == "Windows":
-        # Intenta encontrar FFmpeg en la ruta proporcionada o en PATH
+        # Try to find FFmpeg in the provided path or in PATH
         if os.path.exists(r'C:\ffmpeg\bin\ffmpeg.exe'):
             return r'C:\ffmpeg\bin\ffmpeg.exe'
         else:
-            return 'ffmpeg'  # Asume que está en PATH
-    elif system in ["Linux", "Darwin"]:  # Linux o MacOS
-        return 'ffmpeg'  # Asume que está en PATH
+            return 'ffmpeg'  # Assume it's in PATH
+    elif system in ["Linux", "Darwin"]:  # Linux or MacOS
+        return 'ffmpeg'  # Assume it's in PATH
     else:
-        return None  # Sistema desconocido
+        return None  # Unknown system
 
 
 def progress_hook(d):
-    """Función para mostrar el progreso de la descarga"""
+    """Function to display download progress"""
     if d['status'] == 'downloading':
-        percentage = d.get('_percent_str', 'Desconocido')
-        speed = d.get('_speed_str', 'Desconocido')
-        eta = d.get('_eta_str', 'Desconocido')
-        sys.stdout.write(f"\rDescargando: {percentage} | Velocidad: {speed} | ETA: {eta}")
+        percentage = d.get('_percent_str', 'Unknown')
+        speed = d.get('_speed_str', 'Unknown')
+        eta = d.get('_eta_str', 'Unknown')
+        sys.stdout.write(f"\rDownloading: {percentage} | Speed: {speed} | ETA: {eta}")
         sys.stdout.flush()
     elif d['status'] == 'finished':
-        print("\nDescarga completada. Procesando archivo...")
+        print("\nDownload completed. Processing file...")
 
 
 def download_audio_yt_dlp(video_url, output_path="./", audio_quality='192'):
@@ -46,9 +97,29 @@ def download_audio_yt_dlp(video_url, output_path="./", audio_quality='192'):
     try:
         validate_url(video_url)
 
+        # Check copyright status
+        is_free, copyright_message = check_copyright_status(video_url)
+
+        if is_free is False:
+            print(f"\n⚠️ COPYRIGHT WARNING: {copyright_message}")
+            print("This video is likely protected by copyright.")
+            proceed = input("Do you want to continue anyway? (y/n): ").lower().strip() == 'y'
+            if not proceed:
+                print("Download canceled by the user.")
+                return
+        elif is_free is None:
+            print(f"\n⚠️ WARNING: {copyright_message}")
+            print("Please ensure you have the right to download this content.")
+            proceed = input("Do you want to continue? (y/n): ").lower().strip() == 'y'
+            if not proceed:
+                print("Download canceled by the user.")
+                return
+        else:
+            print(f"\n✅ INFORMATION: {copyright_message}")
+
         ffmpeg_path = get_ffmpeg_path()
         if not ffmpeg_path:
-            print("Advertencia: No se pudo determinar la ubicación de FFmpeg. Asegúrate de tenerlo instalado.")
+            print("Warning: Could not determine the location of FFmpeg. Make sure you have it installed.")
 
         ydl_opts = {
             'format': 'bestaudio/best',
