@@ -160,11 +160,10 @@ def main():
         print("-" * 40)
         print("Oops! Something went wrong:")
         print(f"Error: {str(e)}")
-        print("\nNeed help? Contact the developer:")
-        print("Email: developer@yadownloader.com")
-        print("GitHub: github.com/yadownloader")
-        print("Discord: discord.gg/yadownloader")
+
     finally:
+        print("\nNeed help? Contact the developer:")
+        print("Email: vvaldescobos@gmail.com")
         print("-" * 40)
         sleep(3)
 
